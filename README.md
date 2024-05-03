@@ -1,4 +1,4 @@
-This is a [About me - QBIT]() project for Frontend Test.
+This is a [About me - QBIT](https://about-me-qbit.vercel.app/) project for Frontend Test.
 
 ## Getting Started
 
