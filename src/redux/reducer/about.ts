@@ -21,6 +21,7 @@ interface WorkType {
 interface AboutType {
   name: string;
   age: string;
+  desc: string;
   address: string;
   study: StudyType[];
   organization: OrganizationType[];
@@ -30,6 +31,7 @@ interface AboutType {
 const initialState: AboutType = {
   name: "Ismail Al Ghani",
   age: "27 Years Old",
+  desc: "I am a front-end software engineer with 3+ years of experience in engineering roles. Interested inbuilding magical web/mobile experiences that engage users and drive business success.",
   address: "Jakarta Selatan",
   study: [
     {

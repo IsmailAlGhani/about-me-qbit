@@ -1,13 +1,33 @@
 import { useAppSelector } from "../redux/hook";
 import avatar from "../assets/3x4=4 cr merah(new).jpg";
-import { Card, List, ListItem, ListItemPrefix } from "@material-tailwind/react";
+import {
+  Button,
+  Card,
+  List,
+  ListItem,
+  ListItemPrefix,
+} from "@material-tailwind/react";
 import { missingObj } from "../util";
 import { InformationCircleIcon } from "@heroicons/react/24/outline";
 
 function AboutPage() {
-  const { name, age, address, organization, study, work } = useAppSelector(
-    (state) => state.about
-  );
+  const { name, age, desc, address, organization, study, work } =
+    useAppSelector((state) => state.about);
+  const onButtonClick = () => {
+    // using Java Script method to get PDF file
+    fetch("Ismail Al Ghani.pdf").then((response) => {
+      response.blob().then((blob) => {
+        // Creating new object of PDF file
+        const fileURL = window.URL.createObjectURL(blob);
+
+        // Setting various property values
+        let alink = document.createElement("a");
+        alink.href = fileURL;
+        alink.download = "Ismail Al Ghani.pdf";
+        alink.click();
+      });
+    });
+  };
   return (
     <div className="container flex flex-col gap-4 min-h-screen px-[2vh] sm:px-[9vh] w-full py-12">
       <div className="flex w-full gap-4 items-center">
@@ -20,12 +40,26 @@ function AboutPage() {
           <p className="text-2xl font-bold">
             {name} - <span className="text-blue-900">{age}</span>
           </p>
-          <p className="text-base italic">{address}</p>
+          <p className="text-base font-semibold italic">{address}</p>
+          <p className="text-base text-justify italic">{desc}</p>
+          <div className="flex justify-end">
+            <Button
+              {...missingObj}
+              variant="filled"
+              color="blue"
+              onClick={onButtonClick}
+            >
+              Download CV
+            </Button>
+          </div>
         </div>
       </div>
       <div className="flex flex-col w-full gap-4">
         <p className="text-2xl font-bold">School</p>
-        <Card {...missingObj} className="w-full">
+        <Card
+          {...missingObj}
+          className="shadow-xl border-2 border-blue-gray-800 w-full"
+        >
           <List {...missingObj}>
             {study.map((school) => (
               <ListItem {...missingObj} key={school.nameSchool}>
@@ -45,7 +79,10 @@ function AboutPage() {
       </div>
       <div className="flex flex-col w-full gap-4">
         <p className="text-2xl font-bold">Organization</p>
-        <Card {...missingObj} className="w-full">
+        <Card
+          {...missingObj}
+          className="shadow-xl border-2 border-blue-gray-800 w-full"
+        >
           <List {...missingObj}>
             {organization.map((org) => (
               <ListItem {...missingObj} key={org.nameOrganization}>
@@ -66,34 +103,33 @@ function AboutPage() {
       </div>
       <div className="flex flex-col w-full gap-4">
         <p className="text-2xl font-bold">Work</p>
-        <Card {...missingObj} className="w-full">
-          <List key={"work"} {...missingObj}>
-            {work.map((item) => (
-              <ListItem {...missingObj} key={item.companyName}>
-                <div className="flex flex-col w-full gap-4">
-                  <p className="text-base font-bold">
-                    {item.companyName} -{" "}
-                    <span className="text-blue-900">{item.role}</span>
-                  </p>
-                  <p className="text-base font-normal italic">
-                    {item.duration}
-                  </p>
-                  <p className="text-base font-semibold">Description:</p>
-                  <List key={"work-desc"} {...missingObj}>
-                    {item.descriptions.map((desc) => (
-                      <ListItem {...missingObj} key={desc}>
-                        <ListItemPrefix {...missingObj}>
-                          <InformationCircleIcon className="w-6 h-6" />
-                        </ListItemPrefix>
-                        {desc}
-                      </ListItem>
-                    ))}
-                  </List>
-                </div>
-              </ListItem>
-            ))}
-          </List>
-        </Card>
+
+        {work.map((item) => (
+          <Card
+            {...missingObj}
+            key={item.companyName}
+            className="p-4 shadow-xl border-2 border-blue-gray-800 w-full"
+          >
+            <div className="flex flex-col w-full gap-4">
+              <p className="text-base font-bold">
+                {item.companyName} -{" "}
+                <span className="text-blue-900">{item.role}</span>
+              </p>
+              <p className="text-base font-normal italic">{item.duration}</p>
+              <p className="text-base font-semibold">Description:</p>
+              <List key={"work-desc"} {...missingObj}>
+                {item.descriptions.map((desc) => (
+                  <ListItem {...missingObj} key={desc}>
+                    <ListItemPrefix {...missingObj}>
+                      <InformationCircleIcon className="w-6 h-6" />
+                    </ListItemPrefix>
+                    {desc}
+                  </ListItem>
+                ))}
+              </List>
+            </div>
+          </Card>
+        ))}
       </div>
     </div>
   );
